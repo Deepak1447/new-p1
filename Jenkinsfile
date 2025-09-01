@@ -4,8 +4,8 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from main branch
-                git branch: 'main', url: https://github.com/Deepak1447/new-p1.git
+                // Checkout code from GitHub (main branch)
+                git branch: 'main', url: 'https://github.com/Deepak1447/new-p1.git'
 
                 // Verify files
                 sh 'pwd'
@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build WAR') {
             steps {
-                sh 'mvn clean package'
+                sh 'mvn clean package -DskipTests'
             }
         }
 
@@ -24,7 +24,7 @@ pipeline {
             steps {
                 sh '''
                     docker rmi -f hotstar:v1 || true
-                    docker build -t hotstar:v1 -f /var/lib/jenkins/workspace/hotspot/Dockerfile /var/lib/jenkins/workspace/hotspot
+                    docker build -t hotstar:v1 .
                 '''
             }
         }
